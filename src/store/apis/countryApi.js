@@ -11,7 +11,7 @@ const countryApi = createApi({
         query: (countries) => {
           return {
             method: "GET",
-            url: "countries",
+            url: `${countries}`,
           };
         },
       }),
