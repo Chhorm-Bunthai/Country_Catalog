@@ -1,6 +1,8 @@
 import { useGetAllCountriesQuery } from "./store/store";
-import CountryCard from "./components/CountryCard";
 import { Grid } from "@mui/material";
+import CountryCard from "./components/CountryCard";
+import SearchAppBar from "./components/SearchAppBar";
+
 function App() {
   const { data, error, isLoading } = useGetAllCountriesQuery("all");
   const columns = {
@@ -22,6 +24,7 @@ function App() {
       style={{ height: "100vh" }}
     >
       <Grid item xs={12} sm={10} md={8}>
+        <SearchAppBar data={data}/>
         <CountryCard columns={columns} />
       </Grid>
     </Grid>
