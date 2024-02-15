@@ -6,12 +6,10 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { Grid } from "@mui/material";
 
-export default function CountryCard({ columns}) {
-  const { data, error, isLoading } = useGetAllCountriesQuery("all");
-
+export default function CountryCard({ columns, filteredCountry }) {
   return (
     <Grid container spacing={2}>
-      {data.map((country, index) => (
+      {filteredCountry.map((country, index) => (
         <Grid item key={index} xs={12} sm={columns.sm} md={columns.md}>
           <Card sx={{ maxWidth: 345 }} key={index}>
             <CardActionArea>
