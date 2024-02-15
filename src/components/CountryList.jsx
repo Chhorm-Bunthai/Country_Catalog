@@ -18,6 +18,10 @@ const columns = [
   { id: "idd", label: "IDD", width: 130 },
 ];
 export default function CountryList({ data }) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortColumn, setSortColumn] = useState("name");
   const rows = data.map((el, index) => {
     return {
       id: index,
@@ -30,8 +34,6 @@ export default function CountryList({ data }) {
       idd: el.idd.root + el.idd && el.idd.suffixes && el.idd.suffixes[0],
     };
   });
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -40,6 +42,23 @@ export default function CountryList({ data }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const handleSort = (columnnId) => {
+    const isAsc = sortColumn === columnnId && sortOrder === "asc";
+    setSortOrder(isAsc ? "desc" : "asc");
+    setSortColumn(columnnId);
+  };
+  const sortedRows = rows.slice().sort((a, b) => {
+    const valueA = a[sortColumn];
+    const valueB = b[sortColumn];
+
+    if (typeof valueA === "string" && typeof valueB === "string") {
+      return sortOrder === "asc"
+        ? valueA.localeCompare(valueB)
+        : valueB.localeCompare(valueA);
+    } else {
+      return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
+    }
+  });
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -52,14 +71,18 @@ export default function CountryList({ data }) {
                   key={column.id}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
+                  onClick={() => handleSort(column.id)}
                 >
                   {column.label}
+                  {sortColumn === column.id ? (
+                    <span>{sortOrder === "asc" ? " 🔽 Asc" : " 🔼Dsc"}</span>
+                  ) : null}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {sortedRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
