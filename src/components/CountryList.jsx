@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import PopupModal from "./PopupModal";
+import { Tooltip } from "@mui/material";
 const columns = [
   { id: "img", label: "Flags", width: 70 },
   { id: "name", label: "Country Name", width: 130 },
@@ -97,7 +98,7 @@ export default function CountryList({ data }) {
                     style={{ minWidth: column.minWidth }}
                     onClick={() => handleSort(column.id)}
                   >
-                    {column.label}
+                    <span style={{ fontWeight: "bold" }}>{column.label}</span>
                     {sortColumn === column.id ? (
                       <span>{sortOrder === "asc" ? " 🔽 Asc" : " 🔼Dsc"}</span>
                     ) : null}
