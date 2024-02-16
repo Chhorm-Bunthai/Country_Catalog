@@ -67,9 +67,11 @@ export default function CountryList({ data }) {
   };
 
   const handleSort = (columnnId) => {
-    const isAsc = sortColumn === columnnId && sortOrder === "asc";
-    setSortOrder(isAsc ? "desc" : "asc");
-    setSortColumn(columnnId);
+    if (columnnId === "name") {
+      const isAsc = sortColumn === columnnId && sortOrder === "asc";
+      setSortOrder(isAsc ? "desc" : "asc");
+      setSortColumn(columnnId);
+    }
   };
 
   const sortedRows = rows.slice().sort((a, b) => {
@@ -80,8 +82,6 @@ export default function CountryList({ data }) {
       return sortOrder === "asc"
         ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
-    } else {
-      return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
     }
   });
   console.log(data[0]);
