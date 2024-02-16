@@ -1,4 +1,3 @@
-// CountryList.jsx
 import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -9,15 +8,15 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import PopupModal from "./PopupModal";
-
+import { Tooltip } from "@mui/material";
 const columns = [
   { id: "img", label: "Flags", width: 70 },
   { id: "name", label: "Country Name", width: 130 },
   { id: "cca2", label: "cca2", width: 130 },
   { id: "cca3", label: "cca3", width: 130 },
   { id: "nativeName", label: "Native Name", width: 130 },
-  { id: "altSpellings", label: "Alternative Name", width: 130 },
-  { id: "idd", label: "Country calling", width: 130 },
+  { id: "altSpellings", label: "altSpellings", width: 130 },
+  { id: "idd", label: "IDD", width: 130 },
 ];
 
 export default function CountryList({ data }) {
@@ -46,12 +45,14 @@ export default function CountryList({ data }) {
       name: el.name.official,
       cca2: el.cca2,
       cca3: el.cca3,
-      nativeName: Object.keys(el.name.nativeName || {}).map(
-        (langCode) =>
-          `${el.name.nativeName[langCode].official}${
-            langCode !== "eng" ? ` (${langCode})` : ""
-          }, `
-      ),
+      nativeName: Object.keys(el.name.nativeName || {})
+        .map((name) => {
+          const officialName = el.name.nativeName[name].official;
+          const languageCode = name !== "eng" ? ` (${name})` : "";
+
+          return `${officialName}${languageCode}`;
+        })
+        .join(", "),
       altSpellings: el.altSpellings[0],
       idd: `${el.idd.root}${el.idd.suffixes ? el.idd.suffixes[0] : ""}`,
     };
@@ -67,24 +68,21 @@ export default function CountryList({ data }) {
   };
 
   const handleSort = (columnnId) => {
-    const isAsc = sortColumn === columnnId && sortOrder === "asc";
-    setSortOrder(isAsc ? "desc" : "asc");
-    setSortColumn(columnnId);
+    if (columnnId === "name") {
+      const isAsc = sortColumn === columnnId && sortOrder === "asc";
+      setSortOrder(isAsc ? "desc" : "asc");
+      setSortColumn(columnnId);
+    }
   };
-
   const sortedRows = rows.slice().sort((a, b) => {
     const valueA = a[sortColumn];
     const valueB = b[sortColumn];
-
     if (typeof valueA === "string" && typeof valueB === "string") {
       return sortOrder === "asc"
         ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
-    } else {
-      return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
     }
   });
-  console.log(data[0]);
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -99,7 +97,7 @@ export default function CountryList({ data }) {
                     style={{ minWidth: column.minWidth }}
                     onClick={() => handleSort(column.id)}
                   >
-                    {column.label}
+                    <span style={{ fontWeight: "bold" }}>{column.label}</span>
                     {sortColumn === column.id ? (
                       <span>{sortOrder === "asc" ? " 🔽 Asc" : " 🔼Dsc"}</span>
                     ) : null}
@@ -131,7 +129,11 @@ export default function CountryList({ data }) {
                             </TableCell>
                           );
                         } else {
-                          const value = row[column.id];
+                          const value = (
+                            <span style={{ fontWeight: "500" }}>
+                              {row[column.id]}
+                            </span>
+                          );
                           return (
                             <TableCell key={column.id} align={column.align}>
                               {column.format && typeof value === "number"

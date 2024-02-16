@@ -6,7 +6,6 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
   const handleCloseModal = () => {
     onClose();
   };
-  console.log(selectedCountry, "sel");
   const boldTextStyle = {
     fontWeight: "bold",
   };
@@ -37,23 +36,24 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
             </p>
             <p>
               <span style={boldTextStyle}>Currencies:</span>{" "}
-              {Object.keys(selectedCountry?.currencies || {})?.map((cur) => (
-                <span key={cur}>
-                  {selectedCountry?.currencies[cur]?.name} (
-                  {selectedCountry?.currencies[cur]?.symbol}){", "}
-                </span>
-              ))}
+              {Object.keys(selectedCountry?.currencies || {})?.map(
+                (cur, index, array) => (
+                  <span key={cur}>
+                    {selectedCountry?.currencies[cur]?.name} (
+                    {selectedCountry?.currencies[cur]?.symbol})
+                    {index < array.length - 1 ? ", " : ""}
+                  </span>
+                )
+              )}
             </p>
-
             <p>
               <span style={boldTextStyle}>Gender:</span>{" "}
               {Object.keys(selectedCountry?.demonyms || {})
                 .filter((key) => key !== "fra")
-                .map((key) => (
+                .map((key, index, array) => (
                   <span key={key}>
-                    {`${key} (M: ${selectedCountry?.demonyms[key]?.m}, F: ${
-                      selectedCountry?.demonyms[key]?.f
-                    })${", "}`}
+                    {`${key} (M: ${selectedCountry?.demonyms[key]?.m}, F: ${selectedCountry?.demonyms[key]?.f})`}
+                    {index !== array.length - 1 ? ", " : ""}
                   </span>
                 ))}
             </p>
@@ -62,14 +62,12 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
               {" "}
               <span style={boldTextStyle}>Langauges:</span>{" "}
               {Object.keys(selectedCountry?.languages || {})?.map(
-                (language) => {
-                  return (
-                    <span key={language}>
-                      {`${language} (${selectedCountry?.languages[language]})`}
-                      {", "}
-                    </span>
-                  );
-                }
+                (language, index, array) => (
+                  <span key={language}>
+                    {`${language} (${selectedCountry?.languages[language]})`}
+                    {index < array.length - 1 ? ", " : ""}
+                  </span>
+                )
               )}
             </p>
             <p>
@@ -91,7 +89,7 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
               <span style={boldTextStyle}>PostalCode:</span>{" "}
               {selectedCountry?.postalCode
                 ? selectedCountry?.postalCode?.format
-                : "non exist"}
+                : "Non-exist"}
             </p>
             <p>
               <span style={boldTextStyle}>Start of the Week:</span>{" "}
@@ -112,13 +110,15 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
               {" "}
               <span style={boldTextStyle}>Gini:</span>{" "}
               {Object.keys(selectedCountry?.gini || {}).length > 0
-                ? Object.keys(selectedCountry.gini).map((year) => (
-                    <span key={year}>
-                      {`${year}: ${selectedCountry.gini[year]}`}
-                      {", "}
-                    </span>
-                  ))
-                : "Non exist"}
+                ? Object.keys(selectedCountry.gini).map(
+                    (year, index, array) => (
+                      <span key={year}>
+                        {`${year}: ${selectedCountry.gini[year]}`}
+                        {index < array.length - 1 ? ", " : ""}
+                      </span>
+                    )
+                  )
+                : "Non-exist"}
             </p>
           </div>
         )}

@@ -3,36 +3,30 @@ import { Grid } from "@mui/material";
 import SearchAppBar from "./components/SearchAppBar";
 import { useState } from "react";
 import Country from "./components/CountryList";
+import Loading from "./components/Loading";
+import Error from "./components/Error";
 
 function App() {
   const { data, error, isLoading } = useGetAllCountriesQuery("all");
   const [countryName, setCountryName] = useState("");
-
   if (isLoading) {
-    return <div>loading</div>;
+    return <Loading />;
   }
   if (error) {
-    return <div>error</div>;
+    return <Error error={error} />;
   }
   const filteredCountries = data.filter((country) =>
     country.name.official.toLowerCase().includes(countryName.toLowerCase())
   );
-  const columns = {
-    sm: 6,
-    md: 4,
-  };
   return (
-    <Grid
-      container
-      justifyContent="center"
-      alignItems="center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Grid item xs={12} sm={10} md={8}>
-        <SearchAppBar onSearch={setCountryName} />
-        <Country data={filteredCountries} />
+    <>
+      <SearchAppBar onSearch={setCountryName} />
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={12} sm={10} md={8}>
+          <Country data={filteredCountries} />
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
 
