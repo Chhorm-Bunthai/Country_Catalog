@@ -53,7 +53,7 @@ export default function CountryList({ data }) {
           }, `
       ),
       altSpellings: el.altSpellings[0],
-      idd: `${el.idd.root}${el.idd.suffixes?.[0] ?? ""}`,
+      idd: `${el.idd.root}${el.idd.suffixes ? el.idd.suffixes[0] : ""}`,
     };
   });
 
@@ -84,7 +84,6 @@ export default function CountryList({ data }) {
       return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
     }
   });
-
   console.log(data[0]);
   return (
     <>
