@@ -45,12 +45,14 @@ export default function CountryList({ data }) {
       name: el.name.official,
       cca2: el.cca2,
       cca3: el.cca3,
-      nativeName: Object.keys(el.name.nativeName || {}).map(
-        (langCode) =>
-          `${el.name.nativeName[langCode].official}${
-            langCode !== "eng" ? ` (${langCode})` : ""
-          }, `
-      ),
+      nativeName: Object.keys(el.name.nativeName || {})
+        .map((name) => {
+          const officialName = el.name.nativeName[name].official;
+          const languageCode = name !== "eng" ? ` (${name})` : "";
+
+          return `${officialName}${languageCode}`;
+        })
+        .join(", "),
       altSpellings: el.altSpellings[0],
       idd: `${el.idd.root}${el.idd.suffixes ? el.idd.suffixes[0] : ""}`,
     };
