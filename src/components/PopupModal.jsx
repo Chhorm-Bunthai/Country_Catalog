@@ -6,7 +6,6 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
   const handleCloseModal = () => {
     onClose();
   };
-  console.log(selectedCountry, "sel");
   const boldTextStyle = {
     fontWeight: "bold",
   };
@@ -90,7 +89,7 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
               <span style={boldTextStyle}>PostalCode:</span>{" "}
               {selectedCountry?.postalCode
                 ? selectedCountry?.postalCode?.format
-                : "non exist"}
+                : "Non-exist"}
             </p>
             <p>
               <span style={boldTextStyle}>Start of the Week:</span>{" "}
@@ -119,7 +118,7 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
                       </span>
                     )
                   )
-                : "Non exist"}
+                : "Non-exist"}
             </p>
           </div>
         )}

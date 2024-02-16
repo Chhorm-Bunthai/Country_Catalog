@@ -53,7 +53,7 @@ const CustomAppBar = styled(AppBar)({
 });
 
 const CustomToolbar = styled(Toolbar)({
-  backgroundColor: "#40A2E3", 
+  backgroundColor: "#40A2E3",
 });
 
 export default function SearchAppBar({ onSearch }) {
@@ -78,7 +78,7 @@ export default function SearchAppBar({ onSearch }) {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Search..."
               inputProps={{ "aria-label": "search" }}
               onChange={handleSearchTerm}
             />

@@ -74,18 +74,15 @@ export default function CountryList({ data }) {
       setSortColumn(columnnId);
     }
   };
-
   const sortedRows = rows.slice().sort((a, b) => {
     const valueA = a[sortColumn];
     const valueB = b[sortColumn];
-
     if (typeof valueA === "string" && typeof valueB === "string") {
       return sortOrder === "asc"
         ? valueA.localeCompare(valueB)
         : valueB.localeCompare(valueA);
     }
   });
-  console.log(data[0]);
   return (
     <>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
