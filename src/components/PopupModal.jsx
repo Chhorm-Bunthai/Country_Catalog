@@ -9,7 +9,6 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
   const boldTextStyle = {
     fontWeight: "bold",
   };
-
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
       <DialogContent>
@@ -100,6 +99,17 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
               {selectedCountry?.status}
             </p>
             <p>
+              <span style={boldTextStyle}>flag: </span> {selectedCountry?.flag}
+            </p>
+            <p>
+              <span style={boldTextStyle}>latlng: </span>
+              {`${selectedCountry?.latlng[0]}, ${selectedCountry?.latlng[1]}`}
+            </p>
+            <p>
+              <span style={boldTextStyle}>maps: </span>
+              {selectedCountry?.maps?.googleMaps}
+            </p>
+            <p>
               <span style={boldTextStyle}>Timezones:</span>{" "}
               {selectedCountry?.timezones}
             </p>
@@ -119,6 +129,29 @@ function PopupModal({ selectedCountry, openModal, onClose }) {
                     )
                   )
                 : "Non-exist"}
+            </p>
+            <p>
+              {""}
+              <span style={boldTextStyle}>Translations:</span>{" "}
+              {Object.keys(selectedCountry?.translations || {}).length > 0
+                ? Object.keys(selectedCountry.translations).map(
+                    (lan, index, array) => (
+                      <span key={lan}>
+                        {`${lan}: ${selectedCountry.translations[lan].official}`}
+                        {index < array.length - 1 ? ", " : ""}
+                      </span>
+                    )
+                  )
+                : "Non-exist"}
+            </p>
+            <p>
+              <span style={boldTextStyle}>coatOfArms: </span>{" "}
+              {selectedCountry?.coatOfArms?.png}
+            </p>
+
+            <p>
+              <span style={boldTextStyle}>unMember: </span>
+              {selectedCountry?.unMember ? "true" : "no"}
             </p>
           </div>
         )}
